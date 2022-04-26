@@ -13,7 +13,7 @@ resources:
         # Specifies which branches will trigger dependent steps
         include: master
 
-  - name: myPropertyBag
+  - name: b1PropertyBag
     type: PropertyBag
     configuration:
       commitSha: 1
@@ -27,7 +27,7 @@ pipelines:
         configuration:
           inputResources:
             # Sets up step to be triggered when there are commit events to myFirstRepo
-            - name: myFirstRepo
+            - name: myb1Repo
         execution:
           onExecute:
             # Data from input resources is available as env variables in the step
@@ -75,7 +75,7 @@ pipelines:
         configuration:
           inputResources:
             # Sets up step to be triggered when myPropertyBag is updated
-            - name: myPropertyBag
+            - name: b1PropertyBag
         execution:
           onExecute:
             # Retrieves the commitSha from input resource
