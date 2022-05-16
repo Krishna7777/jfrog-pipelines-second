@@ -5,7 +5,7 @@ resources:
   - name: myb1Repo
     type: GitRepo
     configuration:
-      # SCM integration where the repository is located
+      # SCM integration where the repository islocated
       gitProvider: {{ .Values.myRepo.gitProvider }} # this will be replaced from values.yml
       # Repository path, including org name/repo name
       path: {{ .Values.myRepo.path }} # this will be replaced from values.yml
