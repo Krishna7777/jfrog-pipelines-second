@@ -79,5 +79,5 @@ pipelines:
         execution:
           onExecute:
             # Retrieves the commitSha from input resource
-            - echo "this pipeline should fail"
+            - echo "this pipeline should fail "
             - exit 1
