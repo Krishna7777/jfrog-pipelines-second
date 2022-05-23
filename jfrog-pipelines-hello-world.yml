@@ -6,7 +6,7 @@ resources:
     type: GitRepo
     configuration:
       # SCM integration where the repository is located
-      gitProvider: {{ .Values.myRepo.gitProvider }} # this will be replaced from values.yml
+      gitProvider: {{ .Values.myRepo.gitProvider }} # this  will be replaced from values.yml
       # Repository path, including org name/repo name
       path: {{ .Values.myRepo.path }} # this will be replaced from values.yml
       branches:
@@ -56,7 +56,7 @@ pipelines:
             - add_run_variables commitSha=$res_myFirstRepo_commitSha
             # This variable is written to pipeline state in p1_s3.
             # So this will be empty during first run and will be set to prior run number in subsequent runs
-            # Pipeline state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
+            # Pipeline state documentation:https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
             - echo "Previous run ID is $prev_runid"
 
       - name: p1_s2
