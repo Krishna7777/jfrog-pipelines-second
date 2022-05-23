@@ -28,6 +28,15 @@ pipelines:
           jenkinsJobName: testPipeline
           integrations:
             - name: jenkins_server
+            
+      - name: test_app2
+        type: Jenkins
+        configuration:
+          inputSteps:
+            - name: test_app
+          jenkinsJobName: failPipeline
+          integrations:
+            - name: jenkins_server
       
       - name: p1_s1
         type: Bash
