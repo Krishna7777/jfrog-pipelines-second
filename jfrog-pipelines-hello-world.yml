@@ -71,22 +71,13 @@ pipelines:
             # Utility functions documentation: https://www.jfrog.com/confluence/display/JFROG/Pipelines+Utility+Functions
             - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
 
-      - name: p1_s4
+      - name: MavenWithArtifactory
         type: MvnBuild
         configuration:
-          inputSteps:
-            - name: p1_s2
-          outputResources:
-            - name: myPropertyBag
-        execution:
-          onSuccess:
-            - echo $current_runid
-            # Writes current run number to pipeline state
-            - add_pipeline_variables prev_runid=$run_id
-            # Uses an utility function to update the output resource with the commitSha that triggered this run
-            # Dependent pipelines can be configured to trigger when this resource is updated
-            # Utility functions documentation: https://www.jfrog.com/confluence/display/JFROG/Pipelines+Utility+Functions
-            - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
+          integrations:
+            - name: myart
+          inputResources:
+            - name: mySecondRepo
 
   - name: my_second_pipeline
     steps:
