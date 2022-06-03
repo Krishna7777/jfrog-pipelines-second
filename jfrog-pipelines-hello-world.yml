@@ -44,22 +44,25 @@ pipelines:
       - name: p1_s2
         type: CreateReleaseBundle
         configuration:
+          releaseBundleName: demo_rb
+          releaseBundleVersion: v1.0.1
           inputSteps:
             - name: p1_s1
         execution:
-          onExecute:
+          onSuccess:
             # Demonstrates the availability of an env variable written to run state during p1_s1
             - echo $current_runid
 
       - name: p1_s3
         type: HelmDeploy
         configuration:
+          releaseName: myHelmRelease
           inputSteps:
             - name: p1_s2
           outputResources:
             - name: myPropertyBag
         execution:
-          onExecute:
+          onSuccess:
             - echo $current_runid
             # Writes current run number to pipeline state
             - add_pipeline_variables prev_runid=$run_id
@@ -76,7 +79,7 @@ pipelines:
           outputResources:
             - name: myPropertyBag
         execution:
-          onExecute:
+          onSuccess:
             - echo $current_runid
             # Writes current run number to pipeline state
             - add_pipeline_variables prev_runid=$run_id
