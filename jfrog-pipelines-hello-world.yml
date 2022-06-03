@@ -57,6 +57,8 @@ pipelines:
         type: HelmDeploy
         configuration:
           releaseName: myHelmRelease
+          integrations:
+            - name: mykube
           inputResources:
             - name: mySecondRepo
           inputSteps:
