@@ -40,18 +40,13 @@ pipelines:
             # So this will be empty during first run and will be set to prior run number in subsequent runs
             # Pipeline state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
             - echo "Previous run ID is $prev_runid"
-
-      - name: p1_s2
-        type: CreateReleaseBundle
+            
+      - name: test_app
+        type: Jenkins
         configuration:
-          releaseBundleName: demo_rb
-          releaseBundleVersion: v1.0.1
-          inputSteps:
-            - name: p1_s1
-        execution:
-          onSuccess:
-            # Demonstrates the availability of an env variable written to run state during p1_s1
-            - echo $current_runid
+          jenkinsJobName: testPipeline
+          integrations:
+            - name: myjenkins
 
       - name: p1_s3
         type: HelmDeploy
@@ -61,8 +56,6 @@ pipelines:
             - name: mykube
           inputResources:
             - name: mySecondRepo
-          inputSteps:
-            - name: p1_s2
           outputResources:
             - name: myPropertyBag
         execution:
