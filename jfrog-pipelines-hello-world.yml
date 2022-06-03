@@ -45,6 +45,8 @@ pipelines:
         type: Jenkins
         configuration:
           jenkinsJobName: testPipeline
+          inputSteps:
+            - name: p1_s1
           integrations:
             - name: myjenkins
 
@@ -52,6 +54,8 @@ pipelines:
         type: HelmDeploy
         configuration:
           releaseName: myHelmRelease
+          inputSteps:
+            - name: p1_s1
           integrations:
             - name: mykube
           inputResources:
@@ -71,6 +75,8 @@ pipelines:
       - name: MavenWithArtifactory
         type: MvnBuild
         configuration:
+          inputSteps:
+            - name: p1_s1
           integrations:
             - name: myart
           inputResources:
