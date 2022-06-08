@@ -12,6 +12,14 @@ resources:
       branches:
         # Specifies which branches will trigger dependent steps
         include: master
+        
+  - name: FileSpec_001
+    type: FileSpec
+    configuration:
+      sourceArtifactory: myart
+      pattern: "artifactory-pipe-info/my_first_pipeline/b3test2/1/head.json"
+      recursive: false
+      offset: 1@3
 
   - name: myPropertyBag
     type: PropertyBag
@@ -81,6 +89,17 @@ pipelines:
             - name: myart
           inputResources:
             - name: mySecondRepo
+    
+      - name: uploadArtifactStep
+        type: UploadArtifact
+        configuration:
+          targetPath: my-repository/myDirectory/myFile.txt
+          integrations:
+            - name: myart
+          inputResources:
+            - name: FileSpec_001
+          outputResources:
+            - name: FileSpec_001
 
   - name: my_second_pipeline
     steps:
