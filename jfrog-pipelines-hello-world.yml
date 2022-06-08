@@ -48,15 +48,6 @@ pipelines:
             # So this will be empty during first run and will be set to prior run number in subsequent runs
             # Pipeline state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
             - echo "Previous run ID is $prev_runid"
-            
-      - name: test_app
-        type: Jenkins
-        configuration:
-          jenkinsJobName: testPipeline
-          inputSteps:
-            - name: p1_s1
-          integrations:
-            - name: myjenkins
 
       - name: p1_s3
         type: HelmDeploy
@@ -93,6 +84,8 @@ pipelines:
       - name: uploadArtifactStep
         type: UploadArtifact
         configuration:
+          inputSteps:
+            - name: p1_s1
           targetPath: my-repository/myDirectory/myFile.txt
           integrations:
             - name: myart
