@@ -48,16 +48,6 @@ pipelines:
             # So this will be empty during first run and will be set to prior run number in subsequent runs
             # Pipeline state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
             - echo "Previous run ID is $prev_runid"
-
-      - name: MavenWithArtifactory
-        type: MvnBuild
-        configuration:
-          inputSteps:
-            - name: p1_s1
-          integrations:
-            - name: myart
-          inputResources:
-            - name: mySecondRepo
     
       - name: uploadArtifactStep
         type: UploadArtifact
