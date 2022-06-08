@@ -1,4 +1,4 @@
 myRepo:
-  gitProvider: my_github
+  gitProvider: mygithub
   path: Krishna7777/jfrog-pipelines-second
   artifactory: myart
