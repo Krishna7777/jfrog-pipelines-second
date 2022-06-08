@@ -69,8 +69,6 @@ pipelines:
             - name: myart
           inputResources:
             - name: FileSpec_001
-          outputResources:
-            - name: FileSpec_001
 
   - name: my_second_pipeline
     steps:
