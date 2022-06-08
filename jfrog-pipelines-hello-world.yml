@@ -63,7 +63,7 @@ pipelines:
         type: UploadArtifact
         configuration:
           inputSteps:
-            - name: MavenWithArtifactory
+            - name: p1_s1
           targetPath: my-repository/myDirectory/myFile.txt
           integrations:
             - name: myart
