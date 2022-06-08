@@ -49,28 +49,6 @@ pipelines:
             # Pipeline state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-PipelineState
             - echo "Previous run ID is $prev_runid"
 
-      - name: p1_s3
-        type: HelmDeploy
-        configuration:
-          releaseName: myHelmRelease
-          inputSteps:
-            - name: p1_s1
-          integrations:
-            - name: mykube
-          inputResources:
-            - name: mySecondRepo
-          outputResources:
-            - name: myPropertyBag
-        execution:
-          onSuccess:
-            - echo $current_runid
-            # Writes current run number to pipeline state
-            - add_pipeline_variables prev_runid=$run_id
-            # Uses an utility function to update the output resource with the commitSha that triggered this run
-            # Dependent pipelines can be configured to trigger when this resource is updated
-            # Utility functions documentation: https://www.jfrog.com/confluence/display/JFROG/Pipelines+Utility+Functions
-            - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
-
       - name: MavenWithArtifactory
         type: MvnBuild
         configuration:
