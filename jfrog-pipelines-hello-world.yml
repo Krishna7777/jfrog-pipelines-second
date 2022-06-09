@@ -26,7 +26,7 @@ pipelines:
         type: Bash
         configuration:
           inputResources:
-            # Sets up step to be triggered when there are commit events to myFirstRepo
+            # Sets up step to be triggered when there are commit events to  myFirstRepo
             - name: myThirdRepo
         execution:
           onExecute:
