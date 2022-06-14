@@ -71,6 +71,16 @@ pipelines:
         execution:
           onExecute:
             - echo "executing step2..."
+            
+      - name: approvalGatesStep3
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: approvalGatesStep2      
+          requiresApproval: true
+        execution:
+          onExecute:
+            - echo "executing step3..."
 
       - name: p1_s3
         type: Bash
@@ -88,16 +98,48 @@ pipelines:
             # Dependent pipelines can be configured to trigger when this resource is updated
             # Utility functions documentation: https://www.jfrog.com/confluence/display/JFROG/Pipelines+Utility+Functions
             - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
-            
+      
       - name: approvalGatesStep3
         type: Bash
         configuration:
           inputSteps:
-            - name: approvalGatesStep2      
+            - name: p1_s3      
           requiresApproval: true
         execution:
           onExecute:
-            - echo "executing step3..."
+            - echo "executing step2..."
+            
+      - name: approvalGatesStep4
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: p1_s3      
+          requiresApproval: true
+        execution:
+          onExecute:
+            - echo "executing step2..."
+            
+      - name: approvalGatesStep5
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: p1_s3      
+          requiresApproval: true
+        execution:
+          onExecute:
+            - echo "executing step2..."
+            
+      - name: p1_s3
+        type: Bash
+        configuration:
+          inputSteps:
+            - name: approvalGatesStep5
+            - name: approvalGatesStep4
+            - name: approvalGatesStep3
+        execution:
+          onExecute:
+            # Demonstrates the availability of an env variable written to run state during p1_s1
+            - echo $current_runid
             
 
   - name: my_pipeline_2
