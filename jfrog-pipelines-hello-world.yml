@@ -41,8 +41,7 @@ pipelines:
       - name: p1_s1
         type: Bash
         configuration:
-          inputSteps:
-            - name: test_app
+          affinityGroup: together
           inputResources:
             # Sets up step to be triggered when there are commit events to myFirstRepo
             - name: mySecondRepo
@@ -62,6 +61,7 @@ pipelines:
       - name: p1_s2
         type: Bash
         configuration:
+          affinityGroup: together
           inputSteps:
             - name: p1_s1
         execution:
@@ -72,6 +72,7 @@ pipelines:
       - name: p1_s3
         type: Bash
         configuration:
+          affinityGroup: together
           inputSteps:
             - name: p1_s2
           outputResources:
