@@ -1,31 +1,51 @@
-template: true   # required for local templates d
+template: true   # required for local templates
 valuesFilePath: ./values.yml
 
 resources:
   - name: myFirstRepo
     type: GitRepo
     configuration:
-      # SCM integration where the repo is located
-      gitProvider: {{ .Values.myFirstRepo.gitProvider }} # this will be replaced from values.yml
+      # SCM integration where the repository is located
+      gitProvider: {{ .Values.myRepo.gitProvider }} # this will be replaced from values.yml
       # Repository path, including org name/repo name
-      path: {{ .Values.myFirstRepo.path }} # this will be replaced from values.yml
+      path: {{ .Values.myRepo.path }} # this will be replaced from values.yml
+      files: 
+       include: ^README.md$
       branches:
         # Specifies which branches will trigger dependent steps
-        include: master
+        include: ^{{gitBranch}}$
+      buildOn:
+        pullRequestCreate: true
+      cancelPendingRunsOn:
+        pullRequestUpdate: true
 
   - name: myPropertyBag
     type: PropertyBag
     configuration:
       commitSha: 1
       runID: 1
-
+      
+  - name: app_test_results
+    type: PropertyBag
+    configuration:
+      passing: 0
+      failing: 0
+      
 pipelines:
-  - name: my_pipeline_1
+  - name: my_first_pipeline
     steps:
+      - name: test_app
+        type: Jenkins
+        configuration:
+          jenkinsJobName: testPipeline
+          integrations:
+            - name: jenkinsIntegrationForHook     
+        
       - name: p1_s1
         type: Bash
         configuration:
-          timeoutSeconds: 2
+          inputSteps:
+            - name: test_app
           inputResources:
             # Sets up step to be triggered when there are commit events to myFirstRepo
             - name: myFirstRepo
@@ -33,7 +53,6 @@ pipelines:
           onExecute:
             # Data from input resources is available as env variables in the step
             - echo $res_myFirstRepo_commitSha
-            - sleep 60
             # The next two commands add variables to run state, which is available to all downstream steps in this run
             # Run state documentation: https://www.jfrog.com/confluence/display/JFROG/Creating+Stateful+Pipelines#CreatingStatefulPipelines-RunState
             - add_run_variables current_runid=$run_id
@@ -46,41 +65,18 @@ pipelines:
       - name: p1_s2
         type: Bash
         configuration:
-          inputResources:
-            # Sets up step to be triggered when there are commit events to myFirstRepo
-            - name: myFirstRepo
           inputSteps:
             - name: p1_s1
         execution:
           onExecute:
             # Demonstrates the availability of an env variable written to run state during p1_s1
             - echo $current_runid
-      
-      - name: approvalGatesStep
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: p1_s1      
-          requiresApproval: true
-        execution:
-          onExecute:
-            - echo "executing step..."
-
-      - name: approvalGatesStep2
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: p1_s1      
-          requiresApproval: true
-        execution:
-          onExecute:
-            - echo "executing step2..."
 
       - name: p1_s3
         type: Bash
         configuration:
           inputSteps:
-            - name: approvalGatesStep
+            - name: p1_s2
           outputResources:
             - name: myPropertyBag
         execution:
@@ -92,19 +88,8 @@ pipelines:
             # Dependent pipelines can be configured to trigger when this resource is updated
             # Utility functions documentation: https://www.jfrog.com/confluence/display/JFROG/Pipelines+Utility+Functions
             - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
-            
-      - name: approvalGatesStep3
-        type: Bash
-        configuration:
-          inputSteps:
-            - name: approvalGatesStep2      
-          requiresApproval: true
-        execution:
-          onExecute:
-            - echo "executing step3..."
-            
 
-  - name: my_pipeline_2
+  - name: my_second_pipeline
     steps:
       - name: p2_s1
         type: Bash
