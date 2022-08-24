@@ -1,0 +1,25 @@
+resources:
+  - name: myFirstRepo
+    type: GitRepo
+    configuration:
+      # SCM integration where the repo is located
+      gitProvider: my_github
+      # Repository path, including org name/repo name
+      path: jfbetapipeorg/Org_test_Automation_Webhooks
+      branches:
+        # Specifies which branches will trigger dependent steps
+        include: '.*_*_special_chars+.*:*&*,*@*=*;?1661342310521$'
+
+pipelines:
+  - name: my_first_pipeline
+    steps:
+      - name: p1_s1
+        type: Bash
+        configuration:
+          inputResources:
+            # Sets up step to be triggered when there are commit events to myFirstRepo
+            - name: myFirstRepo
+        execution:
+          onExecute:
+            # Data from input resources is available as env variables in the step
+            - echo test
