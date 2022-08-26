@@ -8,7 +8,7 @@ resources:
       path: jfbetapipeorg/Org_test_Automation_Webhooks
       branches:
         # Specifies which branches will trigger dependent steps
-        include: 'wh_commit_inc_branch_special_chars_1661342310521.*'
+        include: '.*_*_special_chars+.*:*&*,*@*=*;?1661342310521$'
 
 pipelines:
   - name: my_first_pipeline
