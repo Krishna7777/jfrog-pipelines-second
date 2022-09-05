@@ -3,7 +3,7 @@ resources:
     type: GitRepo
     configuration:
       # SCM integration where the repo is located
-      gitProvider: my_github
+      gitProvider: github
       # Repository path, including org name/repo name
       path: jfbetapipeorg/Org_test_Automation_Webhooks
       branches:
