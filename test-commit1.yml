@@ -12,7 +12,7 @@ resources:
         include: 'wh_commit_inc_branch_special_chars_1661337986460.*'
 
 pipelines:
-  - name: my_first_pipeline
+  - name: my_second_pipeline
     steps:
       - name: p1_s1
         type: Bash
