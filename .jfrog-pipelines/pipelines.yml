@@ -11,12 +11,7 @@ resources:
       branches:
         # Specifies which branches will trigger dependent steps
         include: ^{{gitBranch}}$
-      buildOn:
-        pullRequestCreate: true
-        tagCreate: true
-      cancelPendingRunsOn:
-        pullRequestUpdate: true
-
+        
   - name: myPropertyBag
     type: PropertyBag
     configuration:
