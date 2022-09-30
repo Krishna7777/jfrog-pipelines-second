@@ -10,7 +10,7 @@ resources:
        include: ^README.md$
       branches:
         # Specifies which branches will trigger dependent steps
-        include: '.*_*_special_chars+.*'
+        include: '.*_*_special_chars.*'
         
   - name: myPropertyBag
     type: PropertyBag
