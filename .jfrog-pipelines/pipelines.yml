@@ -9,7 +9,7 @@ resources:
       path: Krishna7777/jfrog-pipelines-second
       branches:
         # Specifies which branches will trigger dependent steps
-        include: '.*_*_special_chars+_:*&+.*'
+        include: '.*_*_special_chars+_:+&+.*'
 
 pipelines:
   - name: my_first_pipeline
