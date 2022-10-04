@@ -9,8 +9,12 @@ resources:
       path: Krishna7777/jfrog-pipelines-second
       branches:
         # Specifies which branches will trigger dependent steps
-        include: '.*_*_special_chars+.*:*&*@*=*;?1661337986460$'
-
+        include: ^{{gitBranch}}$
+      buildOn:
+        pullRequestCreate: true
+        tagCreate: true
+      cancelPendingRunsOn:
+        pullRequestUpdate: true
 pipelines:
   - name: my_first_pipeline
     steps:
