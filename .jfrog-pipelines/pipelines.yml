@@ -29,4 +29,4 @@ pipelines:
           onExecute:
             # Data from input resources is available as env variables in the step
             - echo test
-            - sleep 10
+            - sleep 5
