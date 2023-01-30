@@ -1,14 +1,11 @@
-template: true   # required for local templates
-valuesFilePath: ./values.yml
- 
 resources:
   - name: myFirstRepo
     type: GitRepo
     configuration:
       # SCM integration where the repository is located
-      gitProvider: {{ .Values.myRepo.gitProvider }} # this will be replaced from values.yml
+      gitProvider: my_github # this will be replaced from values.yml
       # Repository path, including org name/repo name
-      path: {{ .Values.myRepo.path }} # this will be replaced from values.yml
+      path: Krishna7777/jfrog-pipelines-second # this will be replaced from values.yml
       branches:
         # Specifies which branches will trigger dependent steps
         include: main
@@ -18,7 +15,7 @@ resources:
     configuration:
       commitSha: 1
       runID: 1
- 
+
 pipelines:
   - name: my_first_pipeline
     steps:
@@ -67,16 +64,13 @@ pipelines:
             # Dependent pipelines can be configured to trigger when this resource is updated
             # Utility functions documentation: https://www.jfrog.com/confluence/display/JFROG/Pipelines+Utility+Functions
             - write_output myPropertyBag commitSha=$commitSha runID=$current_runid
- 
-  - name: my_second_pipeline
-    steps:
-      - name: p2_s1
-        type: Bash
+      - name: test_app
+        type: Jenkins
         configuration:
-          inputResources:
-            # Sets up step to be triggered when myPropertyBag is updated
+          inputSteps:
+            - name: p1_s2
+          jenkinsJobName: testFolder/pipetest
+          integrations:
+            - name: int_jenkins
+          outputResources:
             - name: myPropertyBag
-        execution:
-          onExecute:
-            # Retrieves the commitSha from input resource
-            - echo "CommitSha is $res_myPropertyBag_commitSha"
